@@ -1,6 +1,6 @@
-// Login.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "./Login.css";
 
 function Login({ setUser }) {
   const [username, setUsername] = useState("");
@@ -27,7 +27,12 @@ function Login({ setUser }) {
         throw new Error(data.error || "Login failed");
       }
 
-      setUser(data.user);
+      setUser({
+        employee_name: data.user.employee_name,
+        username: data.user.username, // Ensure username is included
+        position: data.user.position,
+        // Include any other relevant user data
+      });
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -35,9 +40,9 @@ function Login({ setUser }) {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
@@ -61,6 +66,9 @@ function Login({ setUser }) {
         </div>
         <button type="submit">Login</button>
       </form>
+      <p className="register-link">
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }

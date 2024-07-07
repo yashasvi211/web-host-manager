@@ -40,13 +40,14 @@ app.post('/login', (req, res) => {
 
     const user = results[0];
     
-    // In a real-world scenario, you should use bcrypt to compare hashed passwords
+    //Gonna use bcrypt to compare hashed passwords but later maybe
     if (password === user.password) {
       res.json({ 
         message: 'Login successful', 
         user: { 
           id: user.id, 
           employee_name: user.employee_name, 
+          username: user.username, 
           position: user.position 
         } 
       });

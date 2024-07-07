@@ -1,6 +1,6 @@
-// Register.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "./Register.css";
 
 function Register() {
   const [employee_name, setEmployeeName] = useState("");
@@ -37,9 +37,9 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="employee_name">Employee Name:</label>
@@ -83,6 +83,9 @@ function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
+      <p className="login-link">
+        Already have an account? <Link to="/login">Login</Link>
+      </p>
     </div>
   );
 }
