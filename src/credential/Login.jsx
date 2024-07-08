@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
@@ -6,14 +6,24 @@ function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      navigate("/dashboard");
+    }
+  }, [setUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("https://backend-k4rg.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,19 +32,23 @@ function Login({ setUser }) {
       });
 
       const data = await response.json();
+      setLoading(false);
 
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
 
-      setUser({
+      const userData = {
         employee_name: data.user.employee_name,
-        username: data.user.username, // Ensure username is included
+        username: data.user.username,
         position: data.user.position,
-        // Include any other relevant user data
-      });
+      };
+
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData)); // Store user data in local storage
       navigate("/dashboard");
     } catch (err) {
+      setLoading(false);
       setError(err.message);
     }
   };
@@ -64,8 +78,11 @@ function Login({ setUser }) {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
+
       <p className="register-link">
         Don't have an account? <Link to="/register">Register</Link>
       </p>

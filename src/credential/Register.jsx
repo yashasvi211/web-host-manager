@@ -8,22 +8,28 @@ function Register() {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ employee_name, username, password, position }),
-      });
+      const response = await fetch(
+        "https://backend-k4rg.onrender.com/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ employee_name, username, password, position }),
+        }
+      );
 
       const data = await response.json();
+      setLoading(false);
 
       if (!response.ok) {
         throw new Error(data.error || "Registration failed");
@@ -32,6 +38,7 @@ function Register() {
       alert("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
+      setLoading(false);
       setError(err.message);
     }
   };
@@ -81,7 +88,9 @@ function Register() {
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
       <p className="login-link">
         Already have an account? <Link to="/login">Login</Link>

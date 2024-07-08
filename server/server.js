@@ -85,6 +85,16 @@ app.post('/register', (req, res) => {
     });
   });
 });
+// Fetch users route
+app.get('/users', (req, res) => {
+  db.query('SELECT * FROM Users', (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    res.json(results);
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -1,38 +1,37 @@
-// App.js
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./credential/Login";
 import Register from "./credential/Register";
 import Dashboard from "./home/Dashboad";
-
+import Profile from "./home/Profile";
 function App() {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/dashboard"
-            element={
-              user ? <Dashboard user={user} /> : <Navigate to="/login" /> // Replace with your Dashboard component
-            }
-          />
-          <Route
-            path="/"
-            element={
-              user ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> // Replace with your Login component
-            }
-          />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Login setUser={setUser} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            user ? (
+              <Dashboard user={user} setUser={setUser} />
+            ) : (
+              <Login setUser={setUser} />
+            )
+          }
+        />
+        <Route path="/profile" element={<Profile user={user} />} />
+      </Routes>
     </Router>
   );
 }
