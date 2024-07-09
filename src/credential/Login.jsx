@@ -32,6 +32,9 @@ function Login({ setUser }) {
       });
 
       const data = await response.json();
+      console.log("Response:", response);
+      console.log("Data:", data);
+
       setLoading(false);
 
       if (!response.ok) {
@@ -45,14 +48,14 @@ function Login({ setUser }) {
       };
 
       setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData)); // Store user data in local storage
+      localStorage.setItem("user", JSON.stringify(userData));
       navigate("/dashboard");
     } catch (err) {
+      console.error("Error:", err);
       setLoading(false);
-      setError(err.message);
+      setError(err.message || "An unexpected error occurred");
     }
   };
-
   return (
     <div className="login-container">
       <h2>Login</h2>

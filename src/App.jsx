@@ -4,6 +4,7 @@ import Login from "./credential/Login";
 import Register from "./credential/Register";
 import Dashboard from "./home/Dashboad";
 import Profile from "./home/Profile";
+import UserDetail from "./home/UserDetails";
 function App() {
   const [user, setUser] = useState(null);
 
@@ -30,6 +31,7 @@ function App() {
             )
           }
         />
+        <Route path="/user/:userId" element={<UserDetail />} />
         <Route path="/profile" element={<Profile user={user} />} />
       </Routes>
     </Router>
