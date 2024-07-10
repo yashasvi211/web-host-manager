@@ -43,7 +43,8 @@ The following schema represents the database structure used in the WebHostManage
 	3. Use the registered credentials to log in to the system
 ## How to Create Your Own Backend
 Setting Up the Project
-```import express, { json } from "express";
+``` javascript
+import express, { json } from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import bcrypt from "bcrypt";
@@ -66,7 +67,7 @@ db.connect((err) => {
 ```
 ## Register Route with Password Hashing
 
-```
+```javascript
 app.post("/register", async (req, res) => {
   const { employee_name, username, password, position } = req.body;
 
@@ -97,7 +98,7 @@ app.post("/register", async (req, res) => {
 
 ## Login Route with Password Verification
 
-```
+```javascript
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -139,7 +140,7 @@ app.post("/login", async (req, res) => {
 
 ## Fetch Users Route
 
-```
+```javascript
 app.get("/users", async (req, res) => {
   try {
     const [results] = await db.promise().query(`
@@ -159,7 +160,7 @@ app.get("/users", async (req, res) => {
 ```
 ## Fetch User Details Route
 
-```
+```javascript
 app.get("/user/:id", async (req, res) => {
   const userId = req.params.id;
 
@@ -197,7 +198,7 @@ app.get("/user/:id", async (req, res) => {
 
 ## Start the Server
 
-```
+```javascript
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
