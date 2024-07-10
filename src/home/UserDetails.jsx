@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./UserDetails.css";
 
 function UserDetail() {
@@ -94,30 +94,6 @@ function UserDetail() {
             <td>{user.storage_gb ? `${user.storage_gb} GB` : "N/A"}</td>
             <td>{user.bandwidth_gb ? `${user.bandwidth_gb} GB` : "N/A"}</td>
             <td>${user.price_monthly || "N/A"}</td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th>Start Date</th>
-            <th>Expiry Date</th>
-            <th>Auto Renew</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              {user.start_date
-                ? new Date(user.start_date).toLocaleDateString()
-                : "N/A"}
-            </td>
-            <td>
-              {user.expiry_date
-                ? new Date(user.expiry_date).toLocaleDateString()
-                : "N/A"}
-            </td>
-            <td>{user.auto_renew ? "Yes" : "No"}</td>
           </tr>
         </tbody>
       </table>
@@ -255,6 +231,10 @@ function UserDetail() {
           </tr>
         </tbody>
       </table>
+
+      <Link to="/dashboard">
+        <button className="back-button">Back to Dashboard</button>
+      </Link>
     </div>
   );
 }
